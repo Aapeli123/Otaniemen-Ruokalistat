@@ -26,6 +26,7 @@ func Init() {
 }
 
 func handleJSONReq(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("content-type", "application/json")
 	foods, err := ruokalista.GetThisWeeksFood()
 	if err != nil {
 		fmt.Fprintln(w, err)
