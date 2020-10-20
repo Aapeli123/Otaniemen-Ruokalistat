@@ -10,9 +10,6 @@ import (
 	tb "gopkg.in/tucnak/telebot.v2"
 )
 
-// Bot is the telegram bot that sends daily messages to a channel
-var Bot *tb.Bot
-
 const token = "your token here"
 
 // Init starts the bot
