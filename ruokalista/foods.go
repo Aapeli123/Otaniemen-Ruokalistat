@@ -34,9 +34,9 @@ func GetThisWeeksFood() (Viikko, error) {
 		fmt.Println("Jotain meni erittäin pahasti pieleen eikä se ehkä oo mun vika")
 		return Viikko{}, err
 	}
-	doc.Find(".lunch-menu .lunch-menu__days .lunch-menu__day").Each(func(i int, s *goquery.Selection) {
+	doc.Find(".lunch-menu .lunch-menu__days .lunch-menu__day").EachWithBreak(func(i int, s *goquery.Selection) bool {
 		if count >= 5 { // kinda scuff but works
-			return
+			return false
 		}
 
 		viikonpaiva := s.Find("h2").First().Text()
@@ -49,6 +49,7 @@ func GetThisWeeksFood() (Viikko, error) {
 		}
 		viikko = append(viikko, päivä)
 		count++
+		return true
 	})
 
 	return viikko, nil
