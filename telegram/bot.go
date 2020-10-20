@@ -6,6 +6,7 @@ import (
 
 	"otaniemenruokalistat.tk/ruokalista"
 
+	"github.com/robfig/cron/v3"
 	tb "gopkg.in/tucnak/telebot.v2"
 )
 
@@ -53,28 +54,23 @@ func Init() {
 	if err != nil {
 		panic(err)
 	}
-	go sendUpdates(bot, chat)
-	fmt.Println("Bot started...")
+	fmt.Println("Starting cron job for bot to send updates...")
+	c := cron.New()
+	c.AddFunc("0 7 * * *", func() { sendUpdate(bot, chat) })
+	c.Start()
+	fmt.Println("Job scheduled")
+	fmt.Println("Starting bot")
 	bot.Start()
 }
 
-func sendUpdates(bot *tb.Bot, chat *tb.Chat) {
-	for {
-		t := time.Now()
-		h := t.Hour()
-		m := t.Minute()
-		s := t.Second()
-		if s == 0 && m == 0 && h == 7 {
-			weekday := int(t.Weekday()) - 1
-			if weekday > 4 {
-				weekday = 0
-			}
-			ruokalista, _ := ruokalista.GetThisWeeksFood()
-			paivanRuoka := ruokalista[weekday]
-			ruoka := fmt.Sprintf("%s\nKotiruoka: %s\nKasvisruoka: %s",
-				paivanRuoka.Viikonpäivä, paivanRuoka.Perus, paivanRuoka.Veg)
-			bot.Send(chat, ruoka)
-		}
-		time.Sleep(time.Second)
+func sendUpdate(bot *tb.Bot, chat *tb.Chat) {
+	weekday := int(time.Now().Weekday()) - 1
+	if weekday > 4 {
+		return
 	}
+	ruokalista, _ := ruokalista.GetThisWeeksFood()
+	paivanRuoka := ruokalista[weekday]
+	ruoka := fmt.Sprintf("%s\nKotiruoka: %s\nKasvisruoka: %s",
+		paivanRuoka.Viikonpäivä, paivanRuoka.Perus, paivanRuoka.Veg)
+	bot.Send(chat, ruoka)
 }
