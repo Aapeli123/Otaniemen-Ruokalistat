@@ -53,7 +53,10 @@ func Init() {
 	}
 	fmt.Println("Starting cron job for bot to send updates...")
 	c := cron.New()
-	c.AddFunc("0 7 * * *", func() { sendUpdate(bot, chat) })
+	_, err = c.AddFunc("CRON_TZ=Europe/Helsinki 0 7 * * *", func() { sendUpdate(bot, chat) })
+	if err != nil {
+		panic(err)
+	}
 	c.Start()
 	fmt.Println("Job scheduled")
 	fmt.Println("Starting bot")
@@ -65,6 +68,7 @@ func sendUpdate(bot *tb.Bot, chat *tb.Chat) {
 	if weekday > 4 {
 		return
 	}
+	fmt.Printf("[%s]Sending telegram message...\n", time.Now().String())
 	ruokalista, _ := ruokalista.GetThisWeeksFood()
 	paivanRuoka := ruokalista[weekday]
 	ruoka := fmt.Sprintf("%s\nKotiruoka: %s\nKasvisruoka: %s",
