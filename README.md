@@ -48,3 +48,4 @@ Ohjelman suorittaminen avaa portin 9999 ja aloittaa sinne webserverin. Sen route
 ```
 ## TODOs
 Telegram botista Inline mode
+Cachee ruokalista
