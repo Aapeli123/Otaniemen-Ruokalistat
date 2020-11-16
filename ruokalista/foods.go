@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"strings"
 
 	"github.com/PuerkitoBio/goquery"
 )
@@ -34,7 +35,21 @@ func GetThisWeeksFood() (Viikko, error) {
 		fmt.Println("Jotain meni erittäin pahasti pieleen eikä se ehkä oo mun vika")
 		return Viikko{}, err
 	}
-	doc.Find(".lunch-menu .lunch-menu__days .lunch-menu__day").EachWithBreak(func(i int, s *goquery.Selection) bool {
+	var title string
+	var lista *goquery.Selection
+	doc.Find(".lunch-menus").Children().EachWithBreak(func(i int, s *goquery.Selection) bool {
+
+		if i%2 == 0 {
+			title = s.Text()
+			if strings.HasPrefix(title, "Lukiolaisten lounaslista viikko") {
+				lista = s.Next()
+				return false
+			}
+		}
+
+		return true
+	})
+	lista.Find(".lunch-menu__days .lunch-menu__day").EachWithBreak(func(i int, s *goquery.Selection) bool {
 		if count >= 5 { // kinda scuff but works
 			return false
 		}

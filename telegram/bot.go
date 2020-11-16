@@ -10,7 +10,7 @@ import (
 	tb "gopkg.in/tucnak/telebot.v2"
 )
 
-const token = "your token here"
+const token = "1353780094:AAFURTxyKXiz_ES1mDF-8WOpx-J57WchIvY"
 
 // Init starts the bot
 func Init() {
@@ -53,7 +53,7 @@ func Init() {
 	}
 	fmt.Println("Starting cron job for bot to send updates...")
 	c := cron.New()
-	_, err = c.AddFunc("CRON_TZ=Europe/Helsinki 0 7 * * *", func() { sendUpdate(bot, chat) })
+	_, err = c.AddFunc("CRON_TZ=Europe/Helsinki 0 8 * * *", func() { sendUpdate(bot, chat) })
 	if err != nil {
 		panic(err)
 	}
@@ -65,7 +65,7 @@ func Init() {
 
 func sendUpdate(bot *tb.Bot, chat *tb.Chat) {
 	weekday := int(time.Now().Weekday()) - 1
-	if weekday > 4 {
+	if weekday > 4 || weekday == -1 { // Koska sunnuntai on ilmeisesti viikon nollas päivä
 		return
 	}
 	fmt.Printf("[%s]Sending telegram message...\n", time.Now().String())
