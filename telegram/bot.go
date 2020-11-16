@@ -10,7 +10,7 @@ import (
 	tb "gopkg.in/tucnak/telebot.v2"
 )
 
-const token = "1353780094:AAFURTxyKXiz_ES1mDF-8WOpx-J57WchIvY"
+const token = "your token here"
 
 // Init starts the bot
 func Init() {
