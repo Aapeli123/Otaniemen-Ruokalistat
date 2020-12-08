@@ -1,6 +1,6 @@
 # Otaniemen-Ruokalistat
 Yksinkertainen Go ohjelma, joka hakee ISS:n nettisivustolta (https://ravintolapalvelut.iss.fi/espoon-tietokylä) Otaniemen lukion ruokalistan pyydettäessä. 
-Idea varastettu toiselta telegram botilta joka ei ilmeisesti ole ainakaan tällä hetkellä käytössä.
+Idea varastettu toiselta telegram botilta <s>joka ei ilmeisesti ole ainakaan tällä hetkellä käytössä.</s>
 ## Setup
 ```
 git clone https://github.com/Aapeli123/Otaniemen-Ruokalistat.git
